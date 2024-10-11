@@ -9,7 +9,7 @@ import { InputGroupModule } from 'primeng/inputgroup';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
-import { delay, finalize, tap } from 'rxjs';
+import { finalize, tap } from 'rxjs';
 import { AuthService } from '../../services/auth/auth.service';
 @Component({
   selector: 'app-login',
@@ -44,7 +44,6 @@ export class LoginComponent {
     this.authService
       .signIn(this.email(), this.password())
       .pipe(
-        delay(500),
         tap(({ data, error }) => {
           if (error) {
             this.error.update(() => error.message);
@@ -61,7 +60,6 @@ export class LoginComponent {
     this.authService
       .signInWithOAuth(provider)
       .pipe(
-        delay(500),
         tap(({ data, error }) => {
           if (error) {
             this.error.update(() => error.message);
