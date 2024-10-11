@@ -1,44 +1,44 @@
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { from } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
+import { SupabaseResponse } from '../supabase';
 import { SupabaseService } from '../supabase/supabase.service';
+import { PollWithUserVote, Vote } from './poll';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EveryoneVotesService {
-  supabaseService = inject(SupabaseService);
   authService = inject(AuthService);
-  getPolls() {
-    return from(this.supabaseService.supabaseClient.from('polls').select());
-  }
-
-  getUserVotes() {
+  supabaseService = inject(SupabaseService);
+  http = inject(HttpClient);
+  getPolls(): Observable<SupabaseResponse<PollWithUserVote>> {
     return from(
-      this.supabaseService.supabaseClient
-        .from('poll_votes')
-        .select()
-        .eq('user_id', this.authService.user()?.id)
+      this.http.get<SupabaseResponse<PollWithUserVote>>(
+        '/.netlify/functions/get-polls'
+      )
     );
   }
 
-  submitVote(pollId: string, optionSelected: number) {
+  getUserVotes(): Observable<SupabaseResponse<Vote>> {
     return from(
-      this.supabaseService.supabaseClient
-        .from('poll_votes')
-        .insert([
-          {
-            poll_id: pollId,
-            user_id: this.authService.user()?.id,
-            option_selected: optionSelected,
-          },
-        ])
-        .select(
-          `
-          poll_id,
-          option_selected
-        `
-        )
+      this.http.post<SupabaseResponse<Vote>>(
+        '/.netlify/functions/get-user-votes',
+        {
+          id: this.authService.user()?.id,
+        }
+      )
+    );
+  }
+
+  submitVote(pollId: string, optionSelected: number): Observable<any> {
+    return from(
+      this.http.post('/.netlify/functions/post-poll-vote', {
+        pollId,
+        userId: this.authService.user()?.id,
+        optionSelected,
+      })
     );
   }
 }

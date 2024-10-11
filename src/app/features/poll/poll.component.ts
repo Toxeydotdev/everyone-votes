@@ -101,6 +101,7 @@ export class PollComponent implements OnInit {
       .pipe(
         delay(500),
         tap(() => this.processing.update(() => true)),
+        map(({ response }) => response),
         map(({ data, error }) => {
           if (error) {
             console.error(error);

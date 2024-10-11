@@ -63,7 +63,6 @@ export class LoginComponent {
       .pipe(
         delay(500),
         tap(({ data, error }) => {
-          console.log(data, error);
           if (error) {
             this.error.update(() => error.message);
           }
