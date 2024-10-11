@@ -10,7 +10,7 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
-import { delay, tap } from 'rxjs';
+import { tap } from 'rxjs';
 import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
@@ -50,7 +50,6 @@ export class SignUpComponent {
     this.authService
       .createUser(this.email(), this.password())
       .pipe(
-        delay(500),
         tap(({ data, error }) => {
           if (error) {
             this.error.update(() => error.message);

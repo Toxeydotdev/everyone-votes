@@ -9,6 +9,7 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { combineLatest, filter, map } from 'rxjs';
 import { EveryoneVotesService } from '../../services/everyone-votes/everyone-votes.service';
+import { Poll, Vote } from '../../services/everyone-votes/poll';
 import { PollComponent } from '../poll/poll.component';
 @Component({
   selector: 'app-dashboard',
@@ -24,18 +25,18 @@ export class DashboardComponent {
 
   polls$ = this.everyoneVotesService
     .getPolls()
-    .pipe(map(({ data, error }) => data));
+    .pipe(map(({ response }) => response.data));
 
   userVotes$ = this.everyoneVotesService
     .getUserVotes()
-    .pipe(map(({ data, error }) => data));
+    .pipe(map(({ response }) => response.data));
 
   pollsAndVotes$ = combineLatest([this.polls$, this.userVotes$]).pipe(
     filter(([polls]) => polls !== null),
     map(([polls, votes]) => {
       if (!votes) return polls;
-      return polls?.map((poll) => {
-        const userVote = votes?.find((vote) => vote.poll_id === poll.id);
+      return polls?.map((poll: Poll) => {
+        const userVote = votes?.find((vote: Vote) => vote.poll_id === poll.id);
         return { ...poll, userVote };
       });
     })
