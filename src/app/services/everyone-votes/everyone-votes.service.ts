@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { from, Observable } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
-import { SupabaseResponse } from '../supabase';
+import { SupabaseGenericResponse } from '../supabase';
 import { SupabaseService } from '../supabase/supabase.service';
 import { PollWithUserVote, Vote } from './poll';
 
@@ -13,17 +13,17 @@ export class EveryoneVotesService {
   authService = inject(AuthService);
   supabaseService = inject(SupabaseService);
   http = inject(HttpClient);
-  getPolls(): Observable<SupabaseResponse<PollWithUserVote>> {
+  getPolls(): Observable<SupabaseGenericResponse<PollWithUserVote>> {
     return from(
-      this.http.get<SupabaseResponse<PollWithUserVote>>(
+      this.http.get<SupabaseGenericResponse<PollWithUserVote>>(
         '/.netlify/functions/get-polls'
       )
     );
   }
 
-  getUserVotes(): Observable<SupabaseResponse<Vote>> {
+  getUserVotes(): Observable<SupabaseGenericResponse<Vote>> {
     return from(
-      this.http.post<SupabaseResponse<Vote>>(
+      this.http.post<SupabaseGenericResponse<Vote>>(
         '/.netlify/functions/get-user-votes',
         {
           id: this.authService.user()?.id,
@@ -32,13 +32,19 @@ export class EveryoneVotesService {
     );
   }
 
-  submitVote(pollId: string, optionSelected: number): Observable<any> {
+  submitVote(
+    pollId: string,
+    optionSelected: number
+  ): Observable<SupabaseGenericResponse<Vote>> {
     return from(
-      this.http.post('/.netlify/functions/post-poll-vote', {
-        pollId,
-        userId: this.authService.user()?.id,
-        optionSelected,
-      })
+      this.http.post<SupabaseGenericResponse<Vote>>(
+        '/.netlify/functions/post-poll-vote',
+        {
+          pollId,
+          userId: this.authService.user()?.id,
+          optionSelected,
+        }
+      )
     );
   }
 }
