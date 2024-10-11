@@ -19,6 +19,15 @@
       [severity]="'success'"
       [raised]="true"
       [rounded]="true"
+      icon="pi pi-plus"
+      size="small"
+      (click)="this.router.navigate(['/create-private-poll'])"
+    ></button>
+    <button
+      pButton
+      [severity]="'success'"
+      [raised]="true"
+      [rounded]="true"
       icon="pi pi-chart-bar"
       size="small"
       (click)="this.router.navigate(['/'])"

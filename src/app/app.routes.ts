@@ -35,6 +35,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'create-private-poll',
+    loadComponent: () =>
+      import(
+        './features/create-private-poll/create-private-poll.component'
+      ).then((m) => m.CreatePrivatePollComponent),
+  },
+  {
     path: '**',
     redirectTo: 'polls',
   },

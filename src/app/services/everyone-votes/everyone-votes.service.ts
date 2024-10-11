@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { from } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { SupabaseService } from '../supabase/supabase.service';
+import { PollInsertObject } from './poll';
 
 @Injectable({
   providedIn: 'root',
@@ -39,6 +40,12 @@ export class EveryoneVotesService {
           option_selected
         `
         )
+    );
+  }
+
+  createPoll(poll: PollInsertObject) {
+    return from(
+      this.supabaseService.supabaseClient.from('polls').insert([poll])
     );
   }
 }

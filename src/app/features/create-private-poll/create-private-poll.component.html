@@ -1,0 +1,22 @@
+<p-card
+  class="flex text-center"
+  styleClass="surface-200"
+  header="Create a Private Poll"
+>
+  <div class="flex flex-column gap-3">
+    <input pInputText placeholder="Title" />
+    <input pInputText placeholder="Description" />
+    <input pInputText placeholder="Option 1" />
+    <input pInputText placeholder="Option 2" />
+  </div>
+  <ng-template pTemplate="footer">
+    <div class="flex flex-column gap-3">
+      <button
+        pButton
+        label="Create Poll"
+        severity="success"
+        (click)="createPoll()"
+      ></button>
+    </div>
+  </ng-template>
+</p-card>
