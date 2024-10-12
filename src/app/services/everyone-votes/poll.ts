@@ -9,6 +9,7 @@ export type Poll = {
   poll_option_image_urls: string[];
   poll_votes_total: number;
   is_public: boolean;
+  deactivated: string | null;
 };
 
 export type Vote = {

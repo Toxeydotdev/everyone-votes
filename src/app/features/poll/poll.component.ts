@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   computed,
   inject,
@@ -29,12 +30,14 @@ import { PollWithUserVote, Vote } from '../../services/everyone-votes/poll';
   ],
   templateUrl: './poll.component.html',
   styleUrl: './poll.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PollComponent implements OnInit {
-  poll = model.required<PollWithUserVote>();
   messageService = inject(MessageService);
   authService = inject(AuthService);
+  everyoneVotesService = inject(EveryoneVotesService);
 
+  poll = model.required<PollWithUserVote>();
   userAuthenticated = computed(() => this.authService.isAuthenticated());
   meterValues = signal([
     { label: '', color: '', icon: '', value: 0 },
@@ -50,8 +53,32 @@ export class PollComponent implements OnInit {
   alreadyVoted = computed(() => this.poll().userVote !== undefined);
 
   processing = signal(false);
-  everyoneVotesService = inject(EveryoneVotesService);
 
+  colors = [
+    'blue',
+    'green',
+    'red',
+    'yellow',
+    'purple',
+    'orange',
+    'pink',
+    'cyan',
+    'indigo',
+    'teal',
+    'orange',
+    'bluegray',
+    'gray',
+  ];
+
+  shades = ['100', '200', '300', '400', '500', '600', '700', '800', '900'];
+
+  color = signal(this.randomColor());
+
+  randomColor(): string {
+    return `bg-${this.colors[Math.floor(Math.random() * this.colors.length)]}-${
+      this.shades[Math.floor(Math.random() * this.shades.length)]
+    }`;
+  }
   updateMeterValues() {
     this.meterValues.update(() => {
       return this.poll().poll_option_labels.map((label, index) => {
