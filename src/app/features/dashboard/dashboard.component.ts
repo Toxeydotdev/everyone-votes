@@ -36,12 +36,12 @@ export class DashboardComponent {
       numScroll: 3,
     },
     {
-      breakpoint: '960px',
+      breakpoint: '1024px',
       numVisible: 2,
       numScroll: 2,
     },
     {
-      breakpoint: '630px',
+      breakpoint: '756px',
       numVisible: 1,
       numScroll: 1,
     },
