@@ -6,7 +6,11 @@ const supabase = createClient(
 );
 
 exports.handler = async () => {
-  const response = await supabase.from("polls").select();
+  const response = await supabase
+    .from("polls")
+    .select()
+    .is("deactivated", null);
+
   return {
     statusCode: 200,
     body: JSON.stringify({
