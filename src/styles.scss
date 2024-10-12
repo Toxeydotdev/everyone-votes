@@ -59,3 +59,10 @@ body {
 .p-card .p-card-content {
   padding: 0;
 }
+
+@media screen and (max-width: 560px) {
+  .p-carousel-prev,
+  .p-carousel-next {
+    display: none;
+  }
+}

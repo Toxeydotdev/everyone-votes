@@ -3,8 +3,9 @@
 <p-carousel
   [value]="pollsAndVotes"
   [numVisible]="4"
-  [numScroll]="1"
-  [circular]="true"
+  [numScroll]="4"
+  [circular]="false"
+  [responsiveOptions]="responsiveOptions"
 >
   <ng-template let-poll pTemplate="item">
     <div class="m-2">

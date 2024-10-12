@@ -29,6 +29,23 @@ import { PollComponent } from '../poll/poll.component';
 export class DashboardComponent {
   everyoneVotesService = inject(EveryoneVotesService);
   processing = signal(false);
+  responsiveOptions = [
+    {
+      breakpoint: '1256px',
+      numVisible: 3,
+      numScroll: 3,
+    },
+    {
+      breakpoint: '960px',
+      numVisible: 2,
+      numScroll: 2,
+    },
+    {
+      breakpoint: '630px',
+      numVisible: 1,
+      numScroll: 1,
+    },
+  ];
 
   polls$ = this.everyoneVotesService
     .getPolls()

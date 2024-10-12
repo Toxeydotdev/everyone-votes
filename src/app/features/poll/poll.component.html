@@ -10,9 +10,9 @@
     <div class="flex border-round-top overflow-hidden">
       @if (poll().poll_option_image_urls) { @for (image of
       poll().poll_option_image_urls; track $index) {
-      <img class="w-6 h-12rem" src="{{ image }}" alt="poll option" />
+      <img class="w-6 h-10rem" src="{{ image }}" alt="poll option" />
       } } @else{
-      <div class="w-full h-12rem {{ color() }}"></div>
+      <div class="w-full h-10rem {{ color() }}"></div>
       }
     </div>
   </ng-template>
@@ -22,7 +22,7 @@
   </p>
 
   <ng-template pTemplate="footer">
-    <div class="w-full flex gap-3 mb-3">
+    <div class="w-full flex gap-3 mb-3 text-nowrap">
       <button
         *ngFor="let button of buttons(); let i = index"
         pButton
@@ -37,7 +37,7 @@
         [outlined]="!button.isSelected"
         [raised]="button.isSelected"
         label="{{ button.label }}"
-        class="flex-grow-1"
+        class="flex-grow-1 w-6"
       ></button>
     </div>
     <!-- force ui refresh after submitting vote -->
