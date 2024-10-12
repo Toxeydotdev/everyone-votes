@@ -1,11 +1,16 @@
 @if(pollsAndVotes$ | async; as pollsAndVotes) {
-<div class="w-full flex justify-content-center gap-4 sm:gap-8 flex-wrap">
-  @for (poll of pollsAndVotes; track $index) {
-  <app-poll
-    [poll]="poll"
-    class="flex w-full md:w-7 lg:w-auto"
-    style="height: fit-content"
-  />
-  }
-</div>
+
+<p-carousel
+  [value]="pollsAndVotes"
+  [numVisible]="4"
+  [numScroll]="1"
+  [circular]="true"
+>
+  <ng-template let-poll pTemplate="item">
+    <div class="m-2">
+      <app-poll [poll]="poll" />
+    </div>
+  </ng-template>
+</p-carousel>
+
 }
